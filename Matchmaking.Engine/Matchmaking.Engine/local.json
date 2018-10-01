@@ -1,0 +1,6 @@
+﻿{
+  "external": {
+    "api_key": "",
+    "all_fighters": "http://ufc-data-api.ufc.com/api/v1/us/fighters"
+  }
+}

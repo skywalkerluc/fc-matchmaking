@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  matchmaking.engine:
+    image: ${DOCKER_REGISTRY}matchmakingengine
+    build:
+      context: .
+      dockerfile: Matchmaking.Engine\Dockerfile
