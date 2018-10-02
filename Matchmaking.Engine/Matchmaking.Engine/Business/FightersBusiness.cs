@@ -10,7 +10,7 @@ namespace Matchmaking.Engine.Business
 {
     public class FightersBusiness
     {
-        public IEnumerable<Fighter> GetFighters(bool champ = false, string lastName = null)
+        public IEnumerable<Fighter> GetFighters(FighterQuery query)
         {
             List<Fighter> allFighters = new List<Fighter>();
             using (var client = new HttpClient())
@@ -25,12 +25,18 @@ namespace Matchmaking.Engine.Business
                     allFighters = JsonConvert.DeserializeObject<List<Fighter>>(responseString);
                 }
             }
-
-            // refactor later (create a searchModel)
-            allFighters = (!string.IsNullOrEmpty(lastName)) ? allFighters.Where(m => m.LastName.Contains(lastName)).ToList() : allFighters;
-            allFighters = (champ) ? allFighters.Where(m => m.TitleHolder.Equals(true)).ToList() : allFighters;
-
+            QueryFighters(ref allFighters, query);
             return allFighters.OrderBy(m => m.WeightClass);
         }
+
+        private void QueryFighters(ref List<Fighter> allFighters, FighterQuery query)
+        {
+            if (query.Id.HasValue) allFighters = allFighters.Where(m => m.Id.Equals(query.Id.Value)).ToList();
+            if (!string.IsNullOrEmpty(query.FirstName)) allFighters = allFighters.Where(m => m.FirstName.Contains(query.FirstName)).ToList();
+            if (!string.IsNullOrEmpty(query.LastName)) allFighters = allFighters.Where(m => m.LastName.Contains(query.LastName)).ToList();
+            if (query.Gender.HasValue) allFighters = allFighters.Where(m => m.Gender.ToString().First().Equals(query.Gender.Value)).ToList();
+            if (query.TitleHolder.HasValue) allFighters = allFighters.Where(m => m.TitleHolder.Equals(query.TitleHolder.Value)).ToList();
+        }
+        
     }
 }

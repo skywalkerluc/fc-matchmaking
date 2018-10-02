@@ -22,36 +22,10 @@ namespace Matchmaking.Engine.Controllers
 
         // GET: api/Fighters
         [HttpGet]
-        public IEnumerable<Fighter> Get(bool? champ = false, string lastName = null)
+        public IEnumerable<Fighter> Get([FromQuery] FighterQuery query)
         {
-            return fightersBusiness.GetFighters(champ.Value, lastName);
+            return fightersBusiness.GetFighters(query);
         }
-
-        // GET: api/Fighters/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         
-
-        // POST: api/Fighters
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT: api/Fighters/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

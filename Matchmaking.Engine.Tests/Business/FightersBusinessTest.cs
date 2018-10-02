@@ -19,8 +19,12 @@ namespace Matchmaking.Engine.Tests.Business
         [Fact]
         public void ShouldReturnFighterCollection()
         {
-            var result = _fightersBusiness.GetFighters();
+            FighterQuery emptyQuery = new FighterQuery();
+            var result = _fightersBusiness.GetFighters(emptyQuery);
             Assert.True(result is IEnumerable<Fighter>);
         }
+
+
+        
     }
 }
